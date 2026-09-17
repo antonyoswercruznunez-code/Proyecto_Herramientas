@@ -1,66 +1,633 @@
-<div class="page-header">
+<div class="page-header apertura-header">
   <div class="page-header-left">
-    <h2><i class="ti ti-lock-open"></i> Apertura de caja</h2>
-    <p>Selecciona una caja libre e ingresa tu PIN de cajero. Las cajas fuera de horario se muestran bloqueadas.</p>
+    <span class="apertura-tag">CONTROL DE CAJA</span>
+    <h2>
+      <i class="ti ti-lock-open"></i>
+      Apertura de caja
+    </h2>
+    <p>Selecciona una caja disponible e ingresa tus credenciales para comenzar.</p>
   </div>
 </div>
 
 <div id="apertura-mensaje"></div>
 
 <div id="apertura-disponibles">
-  <div class="card" style="padding:20px;margin-bottom:18px">
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
-      <div>
-        <h4 style="margin:0 0 4px;color:var(--texto-fuerte)">Cajas habilitadas</h4>
-        <p id="apertura-sucursal" style="margin:0;color:var(--texto-muted);font-size:13px"></p>
-      </div>
-      <div id="apertura-selector-global" style="display:none;min-width:230px">
-        <label class="cfg-lbl" for="apertura-sucursal-select">Sucursal a operar</label>
-        <select id="apertura-sucursal-select" class="form-control"></select>
-      </div>
-      <span class="badge badge-info">Solo cajas libres</span>
-    </div>
+
+  <!-- CABECERA DE CAJAS -->
+
+  <div class="apertura-top-card">
+
+```
+<div class="apertura-top-info">
+  <div class="apertura-main-icon">
+    <i class="ti ti-cash"></i>
   </div>
-  <div id="apertura-cajas" class="apertura-grid"></div>
+
+  <div>
+    <span class="apertura-small-title">ESTADO DE CAJAS</span>
+    <h3>Cajas disponibles</h3>
+    <p id="apertura-sucursal">
+      Cargando sucursal...
+    </p>
+  </div>
 </div>
 
-<div id="modal-apertura-caja" class="apertura-overlay" style="display:none">
-  <div class="card" style="width:92%;max-width:460px;padding:24px">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px">
-      <div>
-        <h3 style="margin:0;color:var(--texto-fuerte)">Abrir <span id="apertura-caja-nombre">caja</span></h3>
-        <p style="margin:4px 0 0;color:var(--texto-muted);font-size:12px">Confirma tu identidad con tu PIN de cajero.</p>
-      </div>
-      <button class="btn btn-outline btn-xs" id="btn-cancelar-apertura" title="Cerrar"><i class="ti ti-x"></i></button>
-    </div>
+<div class="apertura-top-actions">
 
-    <div style="display:flex;flex-direction:column;gap:13px">
-      <div>
-        <label class="cfg-lbl" id="apertura-credencial-label">PIN de cajero *</label>
-        <input id="apertura-pin" type="password" inputmode="numeric" autocomplete="current-password" maxlength="6"
-               class="form-control" placeholder="4 a 6 dígitos">
-      </div>
-      <div style="padding:12px;border:1px solid var(--card-border);border-radius:8px;background:var(--input-bg)">
-        <label class="cfg-lbl" style="margin-bottom:4px">Fondo inicial configurado</label>
-        <strong id="apertura-monto" style="font-size:18px;color:var(--primary)">S/ 0.00</strong>
-        <p style="font-size:11px;color:var(--texto-muted);margin:5px 0 0">El administrador configura este monto para esta caja.</p>
-      </div>
-      <div>
-        <label class="cfg-lbl">Observación (opcional)</label>
-        <textarea id="apertura-observacion" class="form-control" style="resize:none;height:72px" placeholder="Ej. Fondo entregado por administración"></textarea>
-      </div>
-    </div>
+  <div id="apertura-selector-global" style="display:none">
+    <label class="cfg-lbl" for="apertura-sucursal-select">
+      Sucursal a operar
+    </label>
 
-    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px">
-      <button class="btn btn-outline" id="btn-cancelar-apertura-2">Cancelar</button>
-      <button class="btn btn-primary" id="btn-confirmar-apertura"><i class="ti ti-lock-open"></i> Abrir caja</button>
-    </div>
+    <select
+      id="apertura-sucursal-select"
+      class="form-control"
+    ></select>
   </div>
+
+  <div class="apertura-status">
+    <span class="apertura-status-dot"></span>
+    Cajas libres
+  </div>
+
+</div>
+```
+
+  </div>
+
+  <!-- CAJAS -->
+
+  <div class="apertura-section-title">
+    <div>
+      <h3>Selecciona una caja</h3>
+      <p>Las cajas fuera de horario aparecerán bloqueadas.</p>
+    </div>
+
+```
+<div class="apertura-clock">
+  <i class="ti ti-clock"></i>
+  Disponible para apertura
+</div>
+```
+
+  </div>
+
+  <div id="apertura-cajas" class="apertura-grid"></div>
+
+</div>
+
+<!-- MODAL -->
+
+<div
+  id="modal-apertura-caja"
+  class="apertura-overlay"
+  style="display:none"
+>
+
+  <div class="apertura-modal">
+
+```
+<div class="apertura-modal-header">
+
+  <div class="apertura-modal-title">
+
+    <div class="apertura-modal-icon">
+      <i class="ti ti-lock-open"></i>
+    </div>
+
+    <div>
+      <span>APERTURA</span>
+
+      <h3>
+        Abrir
+        <strong id="apertura-caja-nombre">caja</strong>
+      </h3>
+
+      <p>Confirma tu identidad para continuar.</p>
+    </div>
+
+  </div>
+
+  <button
+    class="btn btn-outline btn-xs"
+    id="btn-cancelar-apertura"
+    title="Cerrar"
+  >
+    <i class="ti ti-x"></i>
+  </button>
+
+</div>
+
+
+<div class="apertura-modal-body">
+
+  <!-- PIN -->
+  <div class="apertura-input-section">
+
+    <label
+      class="cfg-lbl"
+      id="apertura-credencial-label"
+    >
+      PIN de cajero *
+    </label>
+
+    <div class="apertura-pin-wrapper">
+
+      <i class="ti ti-key"></i>
+
+      <input
+        id="apertura-pin"
+        type="password"
+        inputmode="numeric"
+        autocomplete="current-password"
+        maxlength="6"
+        class="form-control"
+        placeholder="Ingresa tu PIN"
+      >
+
+    </div>
+
+    <small>
+      Utiliza entre 4 y 6 dígitos.
+    </small>
+
+  </div>
+
+
+  <!-- FONDO -->
+  <div class="apertura-fondo">
+
+    <div class="apertura-fondo-icon">
+      <i class="ti ti-wallet"></i>
+    </div>
+
+    <div class="apertura-fondo-content">
+
+      <span>FONDO INICIAL</span>
+
+      <strong id="apertura-monto">
+        S/ 0.00
+      </strong>
+
+      <p>
+        Monto configurado por administración.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- OBSERVACIÓN -->
+  <div class="apertura-input-section">
+
+    <label class="cfg-lbl">
+      Observación
+      <span>(opcional)</span>
+    </label>
+
+    <textarea
+      id="apertura-observacion"
+      class="form-control"
+      style="resize:none;height:82px"
+      placeholder="Ej. Fondo entregado por administración"
+    ></textarea>
+
+  </div>
+
+</div>
+
+
+<div class="apertura-modal-footer">
+
+  <button
+    class="btn btn-outline"
+    id="btn-cancelar-apertura-2"
+  >
+    Cancelar
+  </button>
+
+  <button
+    class="btn btn-primary"
+    id="btn-confirmar-apertura"
+  >
+    <i class="ti ti-lock-open"></i>
+    Confirmar apertura
+  </button>
+
+</div>
+```
+
+  </div>
+
 </div>
 
 <style>
-  .apertura-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(215px,1fr)); gap:14px; }
-  .apertura-card { padding:18px; border:1px solid var(--card-border); border-radius:12px; background:var(--card-bg); }
-  .apertura-card:hover { border-color:var(--primary); transform:translateY(-1px); transition:.18s; }
-  .apertura-overlay { position:fixed; inset:0; z-index:1200; align-items:center; justify-content:center; background:rgba(0,0,0,.56); }
+
+/* ==============================
+   HEADER
+================================ */
+
+.apertura-header{
+  margin-bottom:26px;
+}
+
+.apertura-tag{
+  display:inline-block;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:1.7px;
+  color:var(--primary);
+  margin-bottom:5px;
+}
+
+.apertura-header h2{
+  margin:0 0 6px;
+  font-size:26px;
+}
+
+.apertura-header p{
+  margin:0;
+  color:var(--texto-muted);
+  font-size:13px;
+}
+
+
+/* ==============================
+   TOP CARD
+================================ */
+
+.apertura-top-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:22px;
+  margin-bottom:28px;
+  border:1px solid var(--card-border);
+  border-radius:18px;
+  background:var(--card-bg);
+  box-shadow:0 4px 14px rgba(0,0,0,.04);
+}
+
+.apertura-top-info{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.apertura-main-icon{
+  width:54px;
+  height:54px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:15px;
+  background:var(--input-bg);
+  color:var(--primary);
+  font-size:25px;
+}
+
+.apertura-small-title{
+  display:block;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.4px;
+  color:var(--texto-muted);
+  margin-bottom:3px;
+}
+
+.apertura-top-info h3{
+  margin:0 0 3px;
+  font-size:19px;
+}
+
+.apertura-top-info p{
+  margin:0;
+  font-size:12px;
+  color:var(--texto-muted);
+}
+
+
+/* ==============================
+   TOP ACTIONS
+================================ */
+
+.apertura-top-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.apertura-status{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:9px 13px;
+  border-radius:20px;
+  background:var(--input-bg);
+  font-size:11px;
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.apertura-status-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#22c55e;
+}
+
+
+/* ==============================
+   SECTION
+================================ */
+
+.apertura-section-title{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:15px;
+}
+
+.apertura-section-title h3{
+  margin:0 0 3px;
+  font-size:18px;
+}
+
+.apertura-section-title p{
+  margin:0;
+  color:var(--texto-muted);
+  font-size:12px;
+}
+
+.apertura-clock{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  color:var(--texto-muted);
+}
+
+
+/* ==============================
+   GRID DE CAJAS
+================================ */
+
+.apertura-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(auto-fit,minmax(245px,1fr));
+  gap:18px;
+}
+
+.apertura-card{
+  position:relative;
+  padding:22px;
+  border:1px solid var(--card-border);
+  border-radius:18px;
+  background:var(--card-bg);
+  overflow:hidden;
+  transition:.2s ease;
+}
+
+.apertura-card:hover{
+  transform:translateY(-3px);
+  border-color:var(--primary);
+  box-shadow:0 8px 20px rgba(0,0,0,.07);
+}
+
+
+/* ==============================
+   MODAL
+================================ */
+
+.apertura-overlay{
+  position:fixed;
+  inset:0;
+  z-index:1200;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  background:rgba(15,23,42,.68);
+  backdrop-filter:blur(4px);
+}
+
+.apertura-modal{
+  width:100%;
+  max-width:480px;
+  border-radius:20px;
+  background:var(--card-bg);
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+
+
+/* ==============================
+   MODAL HEADER
+================================ */
+
+.apertura-modal-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:15px;
+  padding:22px;
+  border-bottom:1px solid var(--card-border);
+}
+
+.apertura-modal-title{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.apertura-modal-icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--input-bg);
+  color:var(--primary);
+  font-size:20px;
+}
+
+.apertura-modal-title span{
+  display:block;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1.3px;
+  color:var(--texto-muted);
+}
+
+.apertura-modal-title h3{
+  margin:2px 0 3px;
+  font-size:18px;
+}
+
+.apertura-modal-title p{
+  margin:0;
+  font-size:11px;
+  color:var(--texto-muted);
+}
+
+
+/* ==============================
+   MODAL BODY
+================================ */
+
+.apertura-modal-body{
+  padding:22px;
+}
+
+.apertura-input-section{
+  margin-bottom:20px;
+}
+
+.apertura-input-section small{
+  display:block;
+  margin-top:5px;
+  font-size:10px;
+  color:var(--texto-muted);
+}
+
+.apertura-input-section label span{
+  font-weight:400;
+  color:var(--texto-muted);
+}
+
+
+/* ==============================
+   PIN
+================================ */
+
+.apertura-pin-wrapper{
+  position:relative;
+  margin-top:7px;
+}
+
+.apertura-pin-wrapper > i{
+  position:absolute;
+  left:12px;
+  top:50%;
+  transform:translateY(-50%);
+  color:var(--texto-muted);
+}
+
+.apertura-pin-wrapper input{
+  padding-left:38px;
+}
+
+
+/* ==============================
+   FONDO
+================================ */
+
+.apertura-fondo{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:15px;
+  margin-bottom:20px;
+  border:1px solid var(--card-border);
+  border-radius:14px;
+  background:var(--input-bg);
+}
+
+.apertura-fondo-icon{
+  width:42px;
+  height:42px;
+  flex-shrink:0;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:19px;
+  background:var(--card-bg);
+  color:var(--primary);
+}
+
+.apertura-fondo-content span{
+  display:block;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:1px;
+  color:var(--texto-muted);
+}
+
+.apertura-fondo-content strong{
+  display:block;
+  margin:2px 0;
+  font-size:21px;
+  color:var(--primary);
+}
+
+.apertura-fondo-content p{
+  margin:0;
+  font-size:10px;
+  color:var(--texto-muted);
+}
+
+
+/* ==============================
+   FOOTER
+================================ */
+
+.apertura-modal-footer{
+  display:flex;
+  justify-content:flex-end;
+  gap:10px;
+  padding:17px 22px;
+  border-top:1px solid var(--card-border);
+  background:var(--input-bg);
+}
+
+
+/* ==============================
+   RESPONSIVE
+================================ */
+
+@media(max-width:700px){
+
+  .apertura-top-card{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .apertura-top-actions{
+    width:100%;
+  }
+
+  .apertura-section-title{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+}
+
+@media(max-width:500px){
+
+  .apertura-modal{
+    max-width:100%;
+  }
+
+  .apertura-modal-header,
+  .apertura-modal-body{
+    padding:17px;
+  }
+
+  .apertura-modal-footer{
+    padding:14px 17px;
+  }
+
+  .apertura-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
 </style>
