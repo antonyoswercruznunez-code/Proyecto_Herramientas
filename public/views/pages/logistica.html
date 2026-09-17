@@ -1,0 +1,55 @@
+<div class="page-header">
+  <div class="page-header-left"><h2><i class="ti ti-truck-delivery"></i> Logística y reparto</h2><p>Planifica camiones, repartidores, rutas y entregas.</p></div>
+  <div style="display:flex;gap:8px"><button id="lg-nueva-ruta" class="btn btn-primary"><i class="ti ti-route"></i> Nueva ruta</button><button id="lg-refrescar" class="btn btn-outline"><i class="ti ti-refresh"></i></button></div>
+</div>
+
+<div class="card" style="padding:16px;margin-bottom:15px;border-left:4px solid #16a34a">
+  <div style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center">
+    <div><b style="color:var(--texto-fuerte)">Flujo de delivery</b><div style="font-size:12px;color:var(--texto-muted);margin-top:4px">Solo aparecen pedidos web aprobados y listos para reparto.</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;font-size:12px;font-weight:700">
+      <span class="badge badge-info">1. Pedido listo</span><span>→</span><span class="badge badge-warning">2. Asignar ruta</span><span>→</span><span class="badge badge-info">3. Cargar camión</span><span>→</span><span class="badge badge-warning">4. En ruta</span><span>→</span><span class="badge badge-success">5. Entrega + evidencia</span>
+    </div>
+  </div>
+</div>
+
+<div class="tabs" style="margin-bottom:15px">
+  <button class="tab active" data-lg-tab="resumen">Resumen</button>
+  <button class="tab" data-lg-tab="rutas">Rutas</button>
+  <button class="tab" data-lg-tab="repartidores">Repartidores</button>
+  <button class="tab" data-lg-tab="vehiculos">Camiones</button>
+</div>
+
+<section id="lg-tab-resumen">
+  <div id="lg-kpis" class="stats-grid"></div>
+  <div class="grid-2" style="margin-top:15px">
+    <div class="card"><div class="card-header"><h3>Rutas por estado</h3></div><div id="lg-estados" class="card-body"></div></div>
+    <div class="card"><div class="card-header"><h3>Rendimiento de repartidores</h3></div><div id="lg-rendimiento" class="card-body"></div></div>
+  </div>
+</section>
+
+<section id="lg-tab-rutas" style="display:none">
+  <div class="card"><div class="card-body">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">
+      <div><label>Desde</label><input id="lg-desde" type="date" class="form-control"></div>
+      <div><label>Hasta</label><input id="lg-hasta" type="date" class="form-control"></div>
+      <div><label>Estado</label><select id="lg-estado" class="form-control"><option value="">Todos</option><option>planificada</option><option>cargada</option><option>en_ruta</option><option>completada</option><option>cancelada</option></select></div>
+      <button id="lg-filtrar" class="btn btn-outline"><i class="ti ti-filter"></i> Filtrar</button>
+    </div>
+  </div></div>
+  <div class="card" style="margin-top:14px"><div class="table-responsive"><table class="table"><thead><tr><th>Código</th><th>Fecha</th><th>Repartidor</th><th>Camión</th><th>Paradas</th><th>Entregas</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="lg-rutas-body"></tbody></table></div></div>
+</section>
+
+<section id="lg-tab-repartidores" style="display:none">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button id="lg-nuevo-repartidor" class="btn btn-primary"><i class="ti ti-user-plus"></i> Nuevo repartidor</button></div>
+  <div class="card"><div class="table-responsive"><table class="table"><thead><tr><th>Nombre</th><th>Documento</th><th>Teléfono</th><th>Licencia</th><th>Vencimiento</th><th>Sucursal</th><th>Estado</th><th></th></tr></thead><tbody id="lg-repartidores-body"></tbody></table></div></div>
+</section>
+
+<section id="lg-tab-vehiculos" style="display:none">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:10px"><button id="lg-nuevo-vehiculo" class="btn btn-primary"><i class="ti ti-truck"></i> Nuevo camión</button></div>
+  <div class="card"><div class="table-responsive"><table class="table"><thead><tr><th>Placa</th><th>Vehículo</th><th>Capacidad</th><th>SOAT</th><th>Revisión</th><th>Sucursal</th><th>Estado</th><th></th></tr></thead><tbody id="lg-vehiculos-body"></tbody></table></div></div>
+</section>
+
+<style>
+.tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs .tab{border:1px solid #dbe7e0;background:#fff;color:#334155;border-radius:10px;padding:9px 15px;font-weight:700;cursor:pointer}.tabs .tab.active{background:#16a34a;color:#fff;border-color:#16a34a;box-shadow:0 7px 18px rgba(22,163,74,.18)}
+.lg-modal-form{text-align:left;padding:4px}.swal2-popup:has(.lg-modal-form){border-radius:18px!important;border-top:5px solid #16a34a!important}.lg-modal-form h4{color:#166534;margin:4px 0 12px}.lg-modal-form label{display:block;font-size:12px;font-weight:700;color:#475569;margin:8px 0}.lg-modal-form .swal2-input,.lg-modal-form .swal2-select{width:100%;margin:5px 0 0;box-sizing:border-box}.lg-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.lg-check{display:flex!important;gap:8px;align-items:center}@media(max-width:640px){.lg-grid{grid-template-columns:1fr}}
+</style>

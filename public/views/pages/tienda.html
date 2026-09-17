@@ -1,0 +1,116 @@
+<div class="page-header">
+  <div class="page-header-left">
+    <h2><i class="ti ti-building-store"></i> Gestión de la tienda web</h2>
+    <p>Administra únicamente los sliders y los medios de pago visibles en el Ecommerce.</p>
+  </div>
+  <a class="btn btn-outline" href="/tienda" target="_blank" rel="noopener">
+    <i class="ti ti-external-link"></i> Ver tienda
+  </a>
+</div>
+
+<div class="alert alert-info" style="margin-bottom:16px">
+  <i class="ti ti-info-circle"></i>
+  El logo de Mundo Pet se administra una sola vez desde <b>Configuración → Logo de la empresa</b>.
+  Gestión Tienda no crea ni duplica logos.
+</div>
+
+<div class="card" style="padding:20px;margin-bottom:18px">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+    <div>
+      <h3 style="margin:0 0 4px"><i class="ti ti-photo"></i> Sliders del Ecommerce</h3>
+      <p style="margin:0;color:var(--texto-muted);font-size:12px">Sube, ordena, publica u oculta las imágenes principales de la tienda.</p>
+    </div>
+    <form id="td-slider-form" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <input type="file" id="td-slider" accept=".jpg,.jpeg,.png,.webp,image/png,image/jpeg,image/webp" class="form-control file-image" required>
+      <button class="btn btn-primary"><i class="ti ti-upload"></i> Subir slider</button>
+    </form>
+  </div>
+  <div id="td-sliders" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">
+    <div class="loading-center"><div class="spinner"></div></div>
+  </div>
+</div>
+
+<div class="card" style="padding:20px">
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+    <div>
+      <h3 style="margin:0 0 4px"><i class="ti ti-credit-card"></i> Medios de pago de la tienda</h3>
+      <p style="margin:0;color:var(--texto-muted);font-size:12px">Los datos e imágenes configurados aquí aparecen cuando el cliente selecciona el método durante el checkout.</p>
+    </div>
+    <button class="btn btn-primary" id="td-guardar-pagos"><i class="ti ti-device-floppy"></i> Guardar medios de pago</button>
+  </div>
+
+  <div id="td-pagos-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px">
+
+    <section class="card" style="padding:16px;border:1px solid var(--card-border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
+        <div><b style="font-size:16px">Yape</b><div style="font-size:11px;color:var(--texto-muted)">QR o imagen de pago</div></div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" id="td-yape-activo"> Publicar</label>
+      </div>
+      <div class="form-group"><label class="form-label">Número</label><input class="form-control" id="td-yape-numero" maxlength="20" placeholder="999 999 999"></div>
+      <div class="form-group"><label class="form-label">Titular</label><input class="form-control" id="td-yape-titular" maxlength="120" placeholder="Nombre del titular"></div>
+      <div class="td-pay-preview" id="td-yape-preview"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input type="file" id="td-yape-file" accept=".jpg,.jpeg,.png,.webp,image/png,image/jpeg,image/webp" class="form-control file-image" style="flex:1">
+        <button class="btn btn-outline" type="button" onclick="_tdSubirPago('yape')"><i class="ti ti-upload"></i></button>
+        <button class="btn btn-danger" type="button" onclick="_tdEliminarPago('yape')" title="Quitar imagen"><i class="ti ti-trash"></i></button>
+      </div>
+    </section>
+
+    <section class="card" style="padding:16px;border:1px solid var(--card-border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
+        <div><b style="font-size:16px">Plin</b><div style="font-size:11px;color:var(--texto-muted)">QR o imagen de pago</div></div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" id="td-plin-activo"> Publicar</label>
+      </div>
+      <div class="form-group"><label class="form-label">Número</label><input class="form-control" id="td-plin-numero" maxlength="20" placeholder="999 999 999"></div>
+      <div class="form-group"><label class="form-label">Titular</label><input class="form-control" id="td-plin-titular" maxlength="120" placeholder="Nombre del titular"></div>
+      <div class="td-pay-preview" id="td-plin-preview"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input type="file" id="td-plin-file" accept=".jpg,.jpeg,.png,.webp,image/png,image/jpeg,image/webp" class="form-control file-image" style="flex:1">
+        <button class="btn btn-outline" type="button" onclick="_tdSubirPago('plin')"><i class="ti ti-upload"></i></button>
+        <button class="btn btn-danger" type="button" onclick="_tdEliminarPago('plin')" title="Quitar imagen"><i class="ti ti-trash"></i></button>
+      </div>
+    </section>
+
+    <section class="card" style="padding:16px;border:1px solid var(--card-border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
+        <div><b style="font-size:16px">Transferencia bancaria</b><div style="font-size:11px;color:var(--texto-muted)">Datos de cuenta e imagen informativa</div></div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" id="td-transferencia-activo"> Publicar</label>
+      </div>
+      <div class="form-group"><label class="form-label">Banco</label><input class="form-control" id="td-transferencia-banco" maxlength="100" placeholder="BCP, Interbank..."></div>
+      <div class="form-group"><label class="form-label">Titular</label><input class="form-control" id="td-transferencia-titular" maxlength="120"></div>
+      <div class="form-group"><label class="form-label">Cuenta</label><input class="form-control" id="td-transferencia-cuenta" maxlength="80"></div>
+      <div class="form-group"><label class="form-label">CCI</label><input class="form-control" id="td-transferencia-cci" maxlength="80"></div>
+      <div class="td-pay-preview" id="td-transferencia-preview"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input type="file" id="td-transferencia-file" accept=".jpg,.jpeg,.png,.webp,image/png,image/jpeg,image/webp" class="form-control file-image" style="flex:1">
+        <button class="btn btn-outline" type="button" onclick="_tdSubirPago('transferencia')"><i class="ti ti-upload"></i></button>
+        <button class="btn btn-danger" type="button" onclick="_tdEliminarPago('transferencia')" title="Quitar imagen"><i class="ti ti-trash"></i></button>
+      </div>
+    </section>
+
+    <section class="card" style="padding:16px;border:1px solid var(--card-border)">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px">
+        <div><b style="font-size:16px">POS Izipay</b><div style="font-size:11px;color:var(--texto-muted)">Información para pago con tarjeta</div></div>
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px"><input type="checkbox" id="td-izipay-activo"> Publicar</label>
+      </div>
+      <div class="form-group"><label class="form-label">Texto mostrado al cliente</label><textarea class="form-control" id="td-izipay-instrucciones" rows="3" maxlength="500" placeholder="El pago se confirmará mediante POS Izipay..."></textarea></div>
+      <div class="td-pay-preview" id="td-izipay-preview"></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input type="file" id="td-izipay-file" accept=".jpg,.jpeg,.png,.webp,image/png,image/jpeg,image/webp" class="form-control file-image" style="flex:1">
+        <button class="btn btn-outline" type="button" onclick="_tdSubirPago('izipay')"><i class="ti ti-upload"></i></button>
+        <button class="btn btn-danger" type="button" onclick="_tdEliminarPago('izipay')" title="Quitar imagen"><i class="ti ti-trash"></i></button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<style>
+.td-pay-preview{min-height:120px;border:1px dashed var(--card-border);border-radius:10px;margin:10px 0;padding:10px;display:flex;align-items:center;justify-content:center;color:var(--texto-muted);font-size:12px;background:var(--input-bg)}
+.td-pay-preview img{max-width:100%;max-height:180px;object-fit:contain;border-radius:8px}
+
+.file-image{padding:5px!important;border:1px solid #86efac!important;background:#f0fdf4!important;color:#166534!important;border-radius:10px!important}
+.file-image::file-selector-button{border:1px solid #16a34a;background:#fff;color:#15803d;border-radius:8px;padding:8px 12px;margin-right:10px;font-weight:700;cursor:pointer}
+.file-image::file-selector-button:hover{background:#dcfce7}
+.td-pay-preview img{cursor:zoom-in}
+</style>
